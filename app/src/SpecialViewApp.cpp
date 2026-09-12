@@ -1,0 +1,16 @@
+//
+// Created by ana on 9/12/26.
+//
+
+#include "../include/SpecialViewApp.hpp"
+
+#include <MainController.hpp>
+#include <spdlog/spdlog.h>
+
+namespace app {
+    void specialViewApp::app_setup() {
+        spdlog::info("App setup completed");
+        auto mainController = register_controller<app::MainController>();
+        mainController->after(engine::core::Controller::get<engine::core::EngineControllersEnd>());
+    }
+} // app
