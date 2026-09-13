@@ -1,6 +1,9 @@
 {
   "resources": {
     "models": {
+      "stonegolem": {
+        "path": "stonegolem/source/Golem.obj"
+      }
     }
   },
   "window": {

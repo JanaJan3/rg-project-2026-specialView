@@ -5,6 +5,7 @@
 #include "../include/MainController.hpp"
 
 #include <engine/platform/PlatformController.hpp>
+#include <engine/resources/ResourcesController.hpp>
 #include <spdlog/spdlog.h>
 
 namespace app {
@@ -18,5 +19,17 @@ namespace app {
             return false;
         }
         return true;
+    }
+
+    void MainController::draw_golem() {
+        auto resources                  = engine::core::Controller::get<engine::resources::ResourcesController>();
+        engine::resources::Model *model = resources->model("stonegolem");
+
+        engine::resources::Shader *shader = resources->shader("basicshader");
+        model->draw(shader);
+    }
+
+    void MainController::draw() {
+        draw_golem();
     }
 } // app
