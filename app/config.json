@@ -2,13 +2,13 @@
   "resources": {
     "models": {
       "stonegolem": {
-        "path": "stonegolem/source/Golem.obj"
+        "path": "backpack/backpack.obj"
       }
     }
   },
   "window": {
-    "height": 600,
+    "height": 1200,
     "title": "Hello, window!",
-    "width": 800
+    "width": 1600
   }
 }
