@@ -4,6 +4,7 @@
 
 #include "../include/MainController.hpp"
 
+#include <GuiController.hpp>
 #include <engine/graphics/GraphicsController.hpp>
 #include <engine/graphics/OpenGL.hpp>
 #include <engine/platform/PlatformController.hpp>
@@ -17,8 +18,11 @@ namespace app {
     };
 
     void MainPlatformEventObserver::on_mouse_move(engine::platform::MousePosition position) {
-        auto camera = engine::core::Controller::get<engine::graphics::GraphicsController>()->camera();
-        camera->rotate_camera(position.dx, position.dy);
+        auto gui_controller = engine::core::Controller::get<GUIController>();
+        if (!gui_controller->is_enabled()) {
+            auto camera = engine::core::Controller::get<engine::graphics::GraphicsController>()->camera();
+            camera->rotate_camera(position.dx, position.dy);
+        }
     }
 
     void MainController::initialize() {
@@ -46,7 +50,7 @@ namespace app {
         shader->set_mat4("projection", graphics->projection_matrix());
         shader->set_mat4("view", graphics->camera()->view_matrix());
         glm::mat4 model = glm::mat4(1.0f);
-        model           = glm::translate(model, glm::vec3(0.0f, -0.7f, -3.0f));
+        model           = glm::translate(model, glm::vec3(0.0f, -0.5f, -3.0f));
         model           = glm::scale(model, glm::vec3(0.003f));
         model           = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         shader->set_mat4("model", model);
@@ -54,6 +58,10 @@ namespace app {
     }
 
     void MainController::update_camera() {
+        auto gui_controller = engine::core::Controller::get<GUIController>();
+        if (gui_controller->is_enabled()) {
+            return;
+        }
         auto platform = engine::core::Controller::get<engine::platform::PlatformController>();
         auto graphics = engine::core::Controller::get<engine::graphics::GraphicsController>();
         auto camera   = graphics->camera();
