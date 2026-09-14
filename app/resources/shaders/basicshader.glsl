@@ -13,7 +13,8 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
-void main(){
+void main()
+{
     FragPos = vec3(model * vec4(aPos, 1.0));
     Normal = aNormal;
     TexCoords = aTexCoords;
@@ -29,6 +30,7 @@ in vec2 TexCoords;
 
 uniform sampler2D texture_diffuse1;
 
-void main(){
+void main()
+{
     FragColor = vec4(texture(texture_diffuse1, TexCoords).rgb, 1.0);
 }

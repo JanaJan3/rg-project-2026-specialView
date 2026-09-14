@@ -88,8 +88,17 @@ namespace app {
         engine::graphics::OpenGL::clear_buffers();
     }
 
+    void MainController::draw_skybox() {
+        auto resources = engine::core::Controller::get<engine::resources::ResourcesController>();
+        auto skybox    = resources->skybox("forgotten_ruins");
+        auto shader    = resources->shader("skybox");
+        auto graphics  = engine::core::Controller::get<engine::graphics::GraphicsController>();
+        graphics->draw_skybox(shader, skybox);
+    }
+
     void MainController::draw() {
         draw_golem();
+        draw_skybox();
     }
 
     void MainController::end_draw() {
