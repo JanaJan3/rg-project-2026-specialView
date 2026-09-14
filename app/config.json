@@ -2,7 +2,8 @@
   "resources": {
     "models": {
       "stonegolem": {
-        "path": "backpack/backpack.obj"
+        "path": "stonegolem/scene.gltf",
+        "flip_uvs": true
       }
     }
   },

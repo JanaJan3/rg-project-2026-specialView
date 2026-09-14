@@ -14,7 +14,11 @@ namespace app {
 
         void draw_golem();
 
+        void begin_draw() override;
+
         void draw() override;
+
+        void end_draw() override;
 
     public:
         std::string_view name() const override {
