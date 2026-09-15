@@ -26,16 +26,21 @@ namespace app {
         auto main_controller = engine::core::Controller::get<MainController>();
         graphics->begin_gui();
 
+        const ImGuiWindowFlags fixed_flags = ImGuiWindowFlags_NoMove;
+
+        ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Always);
         ImGui::Begin("Golem introduction");
         ImGui::Text("Hi, This is... me. I'm made of stone so I handle impact well.");
         ImGui::End();
 
+        ImGui::SetNextWindowPos(ImVec2(20, 200), ImGuiCond_Always);
         ImGui::Begin("Ambient Lighting");
         ImGui::Separator();
         ImGui::ColorEdit3("Ambient color", &main_controller->ambient_color()[0]);
         ImGui::SliderFloat("Ambient strength", &main_controller->ambient_strength(), 0.0f, 1.0f);
         ImGui::End();
 
+        ImGui::SetNextWindowPos(ImVec2(20, 320), ImGuiCond_Always);
         ImGui::Begin("Directional Lighting");
         auto &dir_light = main_controller->dir_light();
         ImGui::Checkbox("Directional light enabled", &dir_light.enabled);
@@ -43,6 +48,7 @@ namespace app {
         ImGui::SliderFloat("Directional intensity", &dir_light.intensity, 0.0f, 2.0f);
         ImGui::End();
 
+        ImGui::SetNextWindowPos(ImVec2(20, 460), ImGuiCond_Always);
         ImGui::Begin("Event Chain");
         ImGui::Text("Press T to trigger the event chain");
         if (ImGui::Button("Trigger manually")) {
