@@ -40,30 +40,40 @@ namespace app {
         return true;
     }
 
-    void MainController::draw_golem() {
-        auto resources                       = engine::core::Controller::get<engine::resources::ResourcesController>();
-        auto graphics                        = engine::core::Controller::get<engine::graphics::GraphicsController>();
-        engine::resources::Model *stonegolem = resources->model("stonegolem");
+    void MainController::poll_events() {
+        auto platform = engine::core::Controller::get<engine::platform::PlatformController>();
+        if (platform->key(engine::platform::KeyId::KEY_T).state() == engine::platform::Key::State::JustPressed) {
+            start_event_chain();
+        }
+    }
 
-        engine::resources::Shader *shader = resources->shader("light");
-        shader->use();
-        shader->set_mat4("projection", graphics->projection_matrix());
-        shader->set_mat4("view", graphics->camera()->view_matrix());
-        glm::mat4 model = glm::mat4(1.0f);
-        model           = glm::translate(model, glm::vec3(0.0f, -0.5f, -3.0f));
-        model           = glm::scale(model, glm::vec3(0.003f));
-        model           = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        shader->set_mat4("model", model);
-        shader->set_vec3("viewPos", graphics->camera()->Position);
+    void MainController::start_event_chain() {
+        if (m_chain_state != EventChainState::Idle) {
+            return;
+        }
+        spdlog::info("Event chain started (ACTION: pressed key T or triggered manually).");
+        m_chain_state = EventChainState::WaitingForEventA;
+        m_chain_timer = 0.0f;
+    }
 
-        shader->set_vec3("ambientColor", m_ambient_color);
-        shader->set_float("ambientStrength", m_ambient_strength);
+    void MainController::update_event_chain() {
+        if (m_chain_state == EventChainState::Idle || m_chain_state == EventChainState::Done) {
+            return;
+        }
+        auto platform = engine::core::Controller::get<engine::platform::PlatformController>();
+        m_chain_timer += platform->dt();
 
-        shader->set_vec3("dirLight_direction", m_dir_light.direction);
-        shader->set_vec3("dirLight_color", m_dir_light.color);
-        shader->set_float("dirLight_intensity", m_dir_light.intensity);
-        shader->set_bool("dirLight_enabled", m_dir_light.enabled);
-        stonegolem->draw(shader);
+        if (m_chain_state == EventChainState::WaitingForEventA && m_chain_timer >= 2.0f) {
+            spdlog::info("EVENT_A triggered: crystal awakens, point light intensifies.");
+            m_point_light.color     = glm::vec3(0.4f, 0.9f, 1.0f);
+            m_point_light.intensity = 3.0f;
+            m_chain_state           = EventChainState::WaitingForEventB;
+            m_chain_timer           = 0.0f;
+        } else if (m_chain_state == EventChainState::WaitingForEventB && m_chain_timer >= 3.0f) {
+            spdlog::info("EVENT_B triggered: golem reacts, directional light dims.");
+            m_dir_light.intensity = 0.2f;
+            m_chain_state         = EventChainState::Done;
+        }
     }
 
     void MainController::update_camera() {
@@ -91,6 +101,7 @@ namespace app {
 
     void MainController::update() {
         update_camera();
+        update_event_chain();
     }
 
     void MainController::begin_draw() {
@@ -103,6 +114,32 @@ namespace app {
         auto shader    = resources->shader("skybox");
         auto graphics  = engine::core::Controller::get<engine::graphics::GraphicsController>();
         graphics->draw_skybox(shader, skybox);
+    }
+
+    void MainController::draw_golem() {
+        auto resources                       = engine::core::Controller::get<engine::resources::ResourcesController>();
+        auto graphics                        = engine::core::Controller::get<engine::graphics::GraphicsController>();
+        engine::resources::Model *stonegolem = resources->model("stonegolem");
+
+        engine::resources::Shader *shader = resources->shader("light");
+        shader->use();
+        shader->set_mat4("projection", graphics->projection_matrix());
+        shader->set_mat4("view", graphics->camera()->view_matrix());
+        glm::mat4 model = glm::mat4(1.0f);
+        model           = glm::translate(model, glm::vec3(0.0f, -0.5f, -3.0f));
+        model           = glm::scale(model, glm::vec3(0.003f));
+        model           = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        shader->set_mat4("model", model);
+        shader->set_vec3("viewPos", graphics->camera()->Position);
+
+        shader->set_vec3("ambientColor", m_ambient_color);
+        shader->set_float("ambientStrength", m_ambient_strength);
+
+        shader->set_vec3("dirLight_direction", m_dir_light.direction);
+        shader->set_vec3("dirLight_color", m_dir_light.color);
+        shader->set_float("dirLight_intensity", m_dir_light.intensity);
+        shader->set_bool("dirLight_enabled", m_dir_light.enabled);
+        stonegolem->draw(shader);
     }
 
     void MainController::draw_enchanted_crystal() {

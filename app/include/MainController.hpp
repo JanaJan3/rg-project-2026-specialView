@@ -24,12 +24,21 @@ namespace app {
         float quadratic{0.032f};
     };
 
+    enum class EventChainState {
+        Idle,
+        WaitingForEventA,
+        WaitingForEventB,
+        Done
+    };
+
     class MainController : public engine::core::Controller {
         void initialize() override;
 
         bool loop() override;
 
-        void draw_golem();
+        void poll_events() override;
+
+        void update_event_chain();
 
         void update_camera();
 
@@ -38,6 +47,8 @@ namespace app {
         void begin_draw() override;
 
         void draw_skybox();
+
+        void draw_golem();
 
         void draw_enchanted_crystal();
 
@@ -51,6 +62,9 @@ namespace app {
         glm::vec3 m_ambient_color{1.0f, 1.0f, 1.0f};
         float m_ambient_strength{0.25f};
         PointLight m_point_light;
+
+        EventChainState m_chain_state{EventChainState::Idle};
+        float m_chain_timer{0.0f};
 
     public:
         std::string_view name() const override {
@@ -72,6 +86,8 @@ namespace app {
         PointLight &point_light() {
             return m_point_light;
         }
+
+        void start_event_chain();
     };
 } // app
 

@@ -43,6 +43,13 @@ namespace app {
         ImGui::SliderFloat("Directional intensity", &dir_light.intensity, 0.0f, 2.0f);
         ImGui::End();
 
+        ImGui::Begin("Event Chain");
+        ImGui::Text("Press T to trigger the event chain");
+        if (ImGui::Button("Trigger manually")) {
+            main_controller->start_event_chain();
+        }
+        ImGui::End();
+
         graphics->end_gui();
     }
 } // app
