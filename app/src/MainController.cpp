@@ -45,7 +45,7 @@ namespace app {
         auto graphics                        = engine::core::Controller::get<engine::graphics::GraphicsController>();
         engine::resources::Model *stonegolem = resources->model("stonegolem");
 
-        engine::resources::Shader *shader = resources->shader("basicshader");
+        engine::resources::Shader *shader = resources->shader("light");
         shader->use();
         shader->set_mat4("projection", graphics->projection_matrix());
         shader->set_mat4("view", graphics->camera()->view_matrix());
@@ -54,6 +54,15 @@ namespace app {
         model           = glm::scale(model, glm::vec3(0.003f));
         model           = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         shader->set_mat4("model", model);
+        shader->set_vec3("viewPos", graphics->camera()->Position);
+
+        shader->set_vec3("ambientColor", m_ambient_color);
+        shader->set_float("ambientStrength", m_ambient_strength);
+
+        shader->set_vec3("dirLight_direction", m_dir_light.direction);
+        shader->set_vec3("dirLight_color", m_dir_light.color);
+        shader->set_float("dirLight_intensity", m_dir_light.intensity);
+        shader->set_bool("dirLight_enabled", m_dir_light.enabled);
         stonegolem->draw(shader);
     }
 

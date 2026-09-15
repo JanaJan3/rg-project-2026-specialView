@@ -5,6 +5,9 @@
         "path": "stonegolem/scene.gltf",
         "flip_uvs": true
       }
+    },
+    "shaders": {
+      "light": "light.glsl"
     }
   },
   "window": {
