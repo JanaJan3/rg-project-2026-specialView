@@ -15,6 +15,15 @@ namespace app {
         bool enabled{true};
     };
 
+    struct PointLight {
+        glm::vec3 position{2.5f, 0.0f, -3.0f};
+        glm::vec3 color{0.3f, 0.7f, 1.0f};
+        float intensity{1.5f};
+        float constant{1.0f};
+        float linear{0.09f};
+        float quadratic{0.032f};
+    };
+
     class MainController : public engine::core::Controller {
         void initialize() override;
 
@@ -41,6 +50,7 @@ namespace app {
         DirectionalLight m_dir_light;
         glm::vec3 m_ambient_color{1.0f, 1.0f, 1.0f};
         float m_ambient_strength{0.25f};
+        PointLight m_point_light;
 
     public:
         std::string_view name() const override {
@@ -57,6 +67,10 @@ namespace app {
 
         float &ambient_strength() {
             return m_ambient_strength;
+        }
+
+        PointLight &point_light() {
+            return m_point_light;
         }
     };
 } // app

@@ -110,7 +110,7 @@ namespace app {
         auto graphics = engine::core::Controller::get<engine::graphics::GraphicsController>();
         engine::resources::Model *enchanted_crystal = resources->model("enchanted_crystal");
 
-        engine::resources::Shader *shader = resources->shader("light");
+        engine::resources::Shader *shader = resources->shader("point_dir_ambient");
         shader->use();
         shader->set_mat4("projection", graphics->projection_matrix());
         shader->set_mat4("view", graphics->camera()->view_matrix());
@@ -124,6 +124,18 @@ namespace app {
         shader->set_vec3("ambientColor", m_ambient_color);
         shader->set_float("ambientStrength", m_ambient_strength);
 
+        shader->set_vec3("dirLight_direction", m_dir_light.direction);
+        shader->set_vec3("dirLight_color", m_dir_light.color);
+        shader->set_float("dirLight_intensity", m_dir_light.intensity);
+        shader->set_bool("dirLight_enabled", m_dir_light.enabled);
+
+        shader->set_vec3("pointLight_position", m_point_light.position);
+        shader->set_vec3("pointLight_color", m_point_light.color);
+        shader->set_float("pointLight_intensity", m_point_light.intensity);
+        shader->set_float("pointLight_constant", m_point_light.constant);
+        shader->set_float("pointLight_linear", m_point_light.linear);
+        shader->set_float("pointLight_quadratic", m_point_light.quadratic);
+
         enchanted_crystal->draw(shader);
     }
 
@@ -132,7 +144,7 @@ namespace app {
         auto graphics = engine::core::Controller::get<engine::graphics::GraphicsController>();
         engine::resources::Model *floating_stone = resources->model("floating_stone");
 
-        engine::resources::Shader *shader = resources->shader("light");
+        engine::resources::Shader *shader = resources->shader("point_dir_ambient");
         shader->use();
         shader->set_mat4("projection", graphics->projection_matrix());
         shader->set_mat4("view", graphics->camera()->view_matrix());
@@ -145,6 +157,18 @@ namespace app {
 
         shader->set_vec3("ambientColor", m_ambient_color);
         shader->set_float("ambientStrength", m_ambient_strength);
+
+        shader->set_vec3("dirLight_direction", m_dir_light.direction);
+        shader->set_vec3("dirLight_color", m_dir_light.color);
+        shader->set_float("dirLight_intensity", m_dir_light.intensity);
+        shader->set_bool("dirLight_enabled", m_dir_light.enabled);
+
+        shader->set_vec3("pointLight_position", m_point_light.position);
+        shader->set_vec3("pointLight_color", m_point_light.color);
+        shader->set_float("pointLight_intensity", m_point_light.intensity);
+        shader->set_float("pointLight_constant", m_point_light.constant);
+        shader->set_float("pointLight_linear", m_point_light.linear);
+        shader->set_float("pointLight_quadratic", m_point_light.quadratic);
 
         floating_stone->draw(shader);
     }

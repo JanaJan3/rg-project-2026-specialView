@@ -13,7 +13,8 @@
       }
     },
     "shaders": {
-      "light": "light.glsl"
+      "light": "light.glsl",
+      "point_dir_ambient": "point_dir_ambient.glsl"
     }
   },
   "window": {
