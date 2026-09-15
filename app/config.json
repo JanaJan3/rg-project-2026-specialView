@@ -4,6 +4,12 @@
       "stonegolem": {
         "path": "stonegolem/scene.gltf",
         "flip_uvs": true
+      },
+      "enchanted_crystal": {
+        "path": "enchanted_crystal/scene.gltf"
+      },
+      "floating_stone": {
+        "path": "floating_stone/scene.gltf"
       }
     },
     "shaders": {

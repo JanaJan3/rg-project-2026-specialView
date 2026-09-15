@@ -30,6 +30,10 @@ namespace app {
 
         void draw_skybox();
 
+        void draw_enchanted_crystal();
+
+        void draw_floating_stone();
+
         void draw() override;
 
         void end_draw() override;
