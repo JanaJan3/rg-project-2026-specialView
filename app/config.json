@@ -1,11 +1,25 @@
 {
   "resources": {
     "models": {
+      "stonegolem": {
+        "path": "stonegolem/scene.gltf",
+        "flip_uvs": true
+      },
+      "enchanted_crystal": {
+        "path": "enchanted_crystal/scene.gltf"
+      },
+      "floating_stone": {
+        "path": "floating_stone/scene.gltf"
+      }
+    },
+    "shaders": {
+      "light": "light.glsl",
+      "point_dir_ambient": "point_dir_ambient.glsl"
     }
   },
   "window": {
-    "height": 600,
+    "height": 1200,
     "title": "Hello, window!",
-    "width": 800
+    "width": 1600
   }
 }

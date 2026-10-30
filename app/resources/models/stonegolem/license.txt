@@ -1,0 +1,11 @@
+Model Information:
+* title:	Golem
+* source:	https://sketchfab.com/3d-models/golem-12d9f2e4dcae4115ae79b3bb5fdae7a7
+* author:	Helenyasha (https://sketchfab.com/makasinka2000)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Golem" (https://sketchfab.com/3d-models/golem-12d9f2e4dcae4115ae79b3bb5fdae7a7) by Helenyasha (https://sketchfab.com/makasinka2000) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
